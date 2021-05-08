@@ -102,7 +102,7 @@ place the image url directly between the img tags
 
 ```js
 const text =
-  '[C]<img>https://via.placeholder.com/300.png/000/fff</img>\n' +
+  '[C]<img>https://via.placeholder.com/300.jpg</img>\n' +
   '[L]\n' +
   "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
   '[L]\n' +
@@ -165,6 +165,7 @@ const App = () => {
 
   const [state, setState] = useState({
     text:
+      '[C]<img>https://via.placeholder.com/300.jpg</img>\n' +
       '[L]\n' +
       "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
       '[L]\n' +
