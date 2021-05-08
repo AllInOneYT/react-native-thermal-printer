@@ -50,9 +50,13 @@ repositories {
     }
     google()
     jcenter()
+    maven { url 'https://www.jitpack.io' }
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:2.0.11'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
