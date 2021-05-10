@@ -59,6 +59,48 @@ ThermalPrinterModule.defaultConfig = {
 ThermalPrinterModule.printTcp({ payload: 'hello world' });
 ```
 
+you can also specify the config each time calling the method
+
+```js
+ThermalPrinterModule.printTcp({
+  ip: '192.168.100.246',
+  port: 9100,
+  payload: 'hello world',
+});
+ThermalPrinterModule.printTcp({
+  ip: '192.168.100.247',
+  port: 9100,
+  payload: 'hello world',
+});
+```
+
+## Method
+
+Only support network printing for now
+
+| Name     | Param    | Param Type          | default         |
+| -------- | -------- | ------------------- | --------------- |
+| printTcp | `config` | `PrintTcpInterface` | `defaultConfig` |
+
+## Interfaces
+
+```ts
+interface PrinterInterface {
+  payload: string;
+  autoCut?: boolean;
+  openCashbox?: boolean;
+  mmFeedPaper?: number;
+  printerDpi?: number;
+  printerWidthMM?: number;
+  printerNbrCharactersPerLine?: number;
+}
+
+interface PrintTcpInterface extends PrinterInterface {
+  ip?: string;
+  port?: number;
+}
+```
+
 ## Config
 
 ### Default config
@@ -138,16 +180,6 @@ const text =
 ## Full example
 
 ```js
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React, { useState } from 'react';
 import { SafeAreaView, useColorScheme, Button, TextInput } from 'react-native';
 
@@ -158,6 +190,7 @@ import ThermalPrinterModule from 'react-native-thermal-printer';
 ThermalPrinterModule.defaultConfig = {
   ...ThermalPrinterModule.defaultConfig,
   ip: '192.168.100.246',
+  port: 9100,
 };
 
 const App = () => {
