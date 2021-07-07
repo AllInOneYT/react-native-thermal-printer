@@ -14,6 +14,7 @@ import com.dantsu.escposprinter.exceptions.EscPosConnectionException;
 import com.dantsu.escposprinter.exceptions.EscPosEncodingException;
 import com.dantsu.escposprinter.exceptions.EscPosParserException;
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -25,6 +26,7 @@ import java.util.regex.Pattern;
 @ReactModule(name = ThermalPrinterModule.NAME)
 public class ThermalPrinterModule extends ReactContextBaseJavaModule {
   public static final String NAME = "ThermalPrinterModule";
+  private Promise jsPromise;
 
   public ThermalPrinterModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -37,7 +39,7 @@ public class ThermalPrinterModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void printTcp(String ipAddress, double port, String payload, boolean autoCut, boolean openCashbox, double mmFeedPaper, double printerDpi, double printerWidthMM, double printerNbrCharactersPerLine) {
+  public void printTcp(String ipAddress, double port, String payload, boolean autoCut, boolean openCashbox, double mmFeedPaper, double printerDpi, double printerWidthMM, double printerNbrCharactersPerLine, Promise promise) {
 //
 //        05-05-2021
 //        https://reactnative.dev/docs/native-modules-android
@@ -48,16 +50,12 @@ public class ThermalPrinterModule extends ReactContextBaseJavaModule {
 //        Float -> ?number
 //        float -> number
 //
-
+    this.jsPromise = promise;
     try {
-
-      this.printIt(new TcpConnection(ipAddress, (int) port), payload, autoCut, openCashbox, mmFeedPaper, printerDpi, printerWidthMM, printerNbrCharactersPerLine);
-    } catch (NumberFormatException e) {
-      new AlertDialog.Builder(getCurrentActivity())
-        .setTitle("Invalid TCP port address")
-        .setMessage("Port field must be a number.")
-        .show();
-      e.printStackTrace();
+      TcpConnection connection = new TcpConnection(ipAddress, (int) port);
+      this.printIt(connection, payload, autoCut, openCashbox, mmFeedPaper, printerDpi, printerWidthMM, printerNbrCharactersPerLine);
+    } catch (Exception e) {
+      this.jsPromise.reject("Connection Error", e.getMessage());
     }
   }
 
@@ -108,30 +106,17 @@ public class ThermalPrinterModule extends ReactContextBaseJavaModule {
       }
 
       printer.disconnectPrinter();
+      this.jsPromise.resolve(true);
     } catch (EscPosConnectionException e) {
-      e.printStackTrace();
-      new AlertDialog.Builder(getCurrentActivity())
-        .setTitle("Broken connection")
-        .setMessage(e.getMessage())
-        .show();
+      this.jsPromise.reject("Broken connection" ,e.getMessage());
     } catch (EscPosParserException e) {
-      e.printStackTrace();
-      new AlertDialog.Builder(getCurrentActivity())
-        .setTitle("Invalid formatted text")
-        .setMessage(e.getMessage())
-        .show();
+      this.jsPromise.reject("Invalid formatted text" ,e.getMessage());
     } catch (EscPosEncodingException e) {
-      e.printStackTrace();
-      new AlertDialog.Builder(getCurrentActivity())
-        .setTitle("Bad selected encoding")
-        .setMessage(e.getMessage())
-        .show();
+      this.jsPromise.reject("Bad selected encoding" ,e.getMessage());
     } catch (EscPosBarcodeException e) {
-      e.printStackTrace();
-      new AlertDialog.Builder(getCurrentActivity())
-        .setTitle("Invalid barcode")
-        .setMessage(e.getMessage())
-        .show();
+      this.jsPromise.reject("Invalid barcode" ,e.getMessage());
+    } catch (Exception e){
+      this.jsPromise.reject("ERROR" ,e.getMessage());
     }
   }
 }
