@@ -2,6 +2,12 @@
 
 native bridge for thermal printer
 
+### :warning: v2 breaking change
+
+- :fire: Changed to promise based <-- this might break your code
+- :fire: More flexible error handling
+- :fire: Bugs fixed
+
 ### Android Only
 
 bridged library:
@@ -56,48 +62,60 @@ ThermalPrinterModule.defaultConfig = {
 ### Send the payload
 
 ```js
-ThermalPrinterModule.printTcp({ payload: 'hello world' });
+// inside async function
+try {
+  await ThermalPrinterModule.printTcp({ payload: 'hello world' });
+} catch (err) {
+  //error handling
+  console.log(err.message);
+}
 ```
 
 you can also specify the config each time calling the method
 
 ```js
-ThermalPrinterModule.printTcp({
-  ip: '192.168.100.246',
-  port: 9100,
-  payload: 'hello world',
-});
-ThermalPrinterModule.printTcp({
-  ip: '192.168.100.247',
-  port: 9100,
-  payload: 'hello world',
-});
+// inside async function
+try {
+  await ThermalPrinterModule.printTcp({
+    ip: '192.168.100.246',
+    port: 9100,
+    payload: 'hello world',
+  });
+  await ThermalPrinterModule.printTcp({
+    ip: '192.168.100.247',
+    port: 9100,
+    payload: 'hello world',
+  });
+} catch (err) {
+  //error handling
+  console.log(err.message);
+}
 ```
 
 ## Method
 
 Only support network printing for now
 
-| Name     | Param    | Param Type          | default         |
-| -------- | -------- | ------------------- | --------------- |
-| printTcp | `config` | `PrintTcpInterface` | `defaultConfig` |
+| Name     | Param    | Param Type                                                       | default         |
+| -------- | -------- | ---------------------------------------------------------------- | --------------- |
+| printTcp | `config` | `Partial<PrintTcpInterface> & Pick<PrinterInterface, 'payload'>` | `defaultConfig` |
 
 ## Interfaces
 
 ```ts
 interface PrinterInterface {
   payload: string;
-  autoCut?: boolean;
-  openCashbox?: boolean;
-  mmFeedPaper?: number;
-  printerDpi?: number;
-  printerWidthMM?: number;
-  printerNbrCharactersPerLine?: number;
+  autoCut: boolean;
+  openCashbox: boolean;
+  mmFeedPaper: number;
+  printerDpi: number;
+  printerWidthMM: number;
+  printerNbrCharactersPerLine: number;
 }
 
 interface PrintTcpInterface extends PrinterInterface {
-  ip?: string;
-  port?: number;
+  ip: string;
+  port: number;
 }
 ```
 
@@ -230,12 +248,15 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const onPress = () => {
-    console.log('We will invoke the native module here!');
-
-    ThermalPrinterModule.printTcp({ payload: state.text });
-
-    console.log('done printing');
+  const onPress = async () => {
+    try {
+      console.log('We will invoke the native module here!');
+      await ThermalPrinterModule.printTcp({ payload: state.text });
+      console.log('done printing');
+    } catch (err) {
+      //error handling
+      console.log(err.message);
+    }
   };
 
   return (
