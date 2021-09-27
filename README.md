@@ -11,7 +11,7 @@ native bridge for thermal printer
 ### Android Only
 
 bridged library:
-https://github.com/DantSu/ESCPOS-ThermalPrinter-Android
+https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/2.0.11
 
 ## Installation
 
@@ -153,7 +153,7 @@ let defaultConfig: PrintTcpInterface = {
 
 ## Payload
 
-same as https://github.com/DantSu/ESCPOS-ThermalPrinter-Android#formatted-text--syntax-guide
+same as https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/2.0.11#formatted-text--syntax-guide
 except for the `<img></img>` tag
 
 place the image url directly between the img tags
