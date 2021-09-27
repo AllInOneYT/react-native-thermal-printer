@@ -277,6 +277,15 @@ const App = () => {
 export default App;
 ```
 
+## Tested devices
+
+- Epson TM-T82
+- Epson TM-T82X
+- Epson TM-T88VI
+- Zywell
+- VSC
+- EPPOS
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
