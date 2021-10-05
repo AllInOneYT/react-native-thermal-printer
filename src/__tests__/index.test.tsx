@@ -14,6 +14,7 @@ jest.mock('react-native', () => {
 
   RN.NativeModules.ThermalPrinterModule = {
     printTcp: jest.fn(),
+    printBluetooth: jest.fn(),
   };
 
   return RN;
@@ -102,6 +103,63 @@ describe('React Native Thermal Printer Module', () => {
       expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
         ip,
         port,
+        payload,
+        autoCut,
+        openCashbox,
+        mmFeedPaper,
+        printerDpi,
+        printerWidthMM,
+        printerNbrCharactersPerLine
+      );
+    });
+  });
+
+  describe('printBluetooth', () => {
+    it('should call the native method', async () => {
+      const args = { payload: 'test' };
+
+      await ReactNativeThermalPrinter.printBluetooth(args);
+
+      expect(NativeModules.ThermalPrinterModule.printBluetooth).toBeCalledTimes(
+        1
+      );
+    });
+    it('should use the default config when no args are passed', async () => {
+      const defaultConfig = ReactNativeThermalPrinter.defaultConfig;
+      const args = { payload: 'test' };
+
+      await ReactNativeThermalPrinter.printBluetooth(args);
+
+      expect(NativeModules.ThermalPrinterModule.printBluetooth).toBeCalledWith(
+        args.payload,
+        defaultConfig.autoCut,
+        defaultConfig.openCashbox,
+        defaultConfig.mmFeedPaper,
+        defaultConfig.printerDpi,
+        defaultConfig.printerWidthMM,
+        defaultConfig.printerNbrCharactersPerLine
+      );
+    });
+    it('should pass args to the native module', async () => {
+      const payload: string = 'abc';
+      const autoCut: boolean = false;
+      const openCashbox: boolean = true;
+      const mmFeedPaper: number = 40;
+      const printerDpi: number = 303;
+      const printerWidthMM: number = 20;
+      const printerNbrCharactersPerLine: number = 62;
+
+      await ReactNativeThermalPrinter.printBluetooth({
+        payload,
+        autoCut,
+        openCashbox,
+        mmFeedPaper,
+        printerDpi,
+        printerWidthMM,
+        printerNbrCharactersPerLine,
+      });
+
+      expect(NativeModules.ThermalPrinterModule.printBluetooth).toBeCalledWith(
         payload,
         autoCut,
         openCashbox,
