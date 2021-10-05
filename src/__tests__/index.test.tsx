@@ -20,15 +20,7 @@ jest.mock('react-native', () => {
 });
 
 describe('React Native Thermal Printer Module', () => {
-  it('Calls the native module', async () => {
-    const args = { payload: 'test' };
-
-    await ReactNativeThermalPrinter.printTcp(args);
-
-    expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledTimes(1);
-  });
-
-  it('Provides a way to set the default config individually', async () => {
+  it('should provide a way to set the default config individually', async () => {
     const args: typeof ReactNativeThermalPrinter.defaultConfig = {
       ip: '2.2.2.2',
       port: 8000,
@@ -56,58 +48,68 @@ describe('React Native Thermal Printer Module', () => {
     );
   });
 
-  it('Uses the default config when no args are passed', async () => {
-    const defaultConfig = ReactNativeThermalPrinter.defaultConfig;
-    const args = { payload: 'test' };
+  describe('printTcp', () => {
+    it('should call the native method', async () => {
+      const args = { payload: 'test' };
 
-    await ReactNativeThermalPrinter.printTcp(args);
+      await ReactNativeThermalPrinter.printTcp(args);
 
-    expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
-      defaultConfig.ip,
-      defaultConfig.port,
-      args.payload,
-      defaultConfig.autoCut,
-      defaultConfig.openCashbox,
-      defaultConfig.mmFeedPaper,
-      defaultConfig.printerDpi,
-      defaultConfig.printerWidthMM,
-      defaultConfig.printerNbrCharactersPerLine
-    );
-  });
-
-  it('Passes args to the native module', async () => {
-    const ip: string = '1.1.1.1';
-    const port: number = 9000;
-    const payload: string = 'abc';
-    const autoCut: boolean = false;
-    const openCashbox: boolean = true;
-    const mmFeedPaper: number = 40;
-    const printerDpi: number = 303;
-    const printerWidthMM: number = 20;
-    const printerNbrCharactersPerLine: number = 62;
-
-    await ReactNativeThermalPrinter.printTcp({
-      ip,
-      port,
-      payload,
-      autoCut,
-      openCashbox,
-      mmFeedPaper,
-      printerDpi,
-      printerWidthMM,
-      printerNbrCharactersPerLine,
+      expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledTimes(1);
     });
 
-    expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
-      ip,
-      port,
-      payload,
-      autoCut,
-      openCashbox,
-      mmFeedPaper,
-      printerDpi,
-      printerWidthMM,
-      printerNbrCharactersPerLine
-    );
+    it('should use the default config when no args are passed', async () => {
+      const defaultConfig = ReactNativeThermalPrinter.defaultConfig;
+      const args = { payload: 'test' };
+
+      await ReactNativeThermalPrinter.printTcp(args);
+
+      expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
+        defaultConfig.ip,
+        defaultConfig.port,
+        args.payload,
+        defaultConfig.autoCut,
+        defaultConfig.openCashbox,
+        defaultConfig.mmFeedPaper,
+        defaultConfig.printerDpi,
+        defaultConfig.printerWidthMM,
+        defaultConfig.printerNbrCharactersPerLine
+      );
+    });
+
+    it('should pass args to the native module', async () => {
+      const ip: string = '1.1.1.1';
+      const port: number = 9000;
+      const payload: string = 'abc';
+      const autoCut: boolean = false;
+      const openCashbox: boolean = true;
+      const mmFeedPaper: number = 40;
+      const printerDpi: number = 303;
+      const printerWidthMM: number = 20;
+      const printerNbrCharactersPerLine: number = 62;
+
+      await ReactNativeThermalPrinter.printTcp({
+        ip,
+        port,
+        payload,
+        autoCut,
+        openCashbox,
+        mmFeedPaper,
+        printerDpi,
+        printerWidthMM,
+        printerNbrCharactersPerLine,
+      });
+
+      expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
+        ip,
+        port,
+        payload,
+        autoCut,
+        openCashbox,
+        mmFeedPaper,
+        printerDpi,
+        printerWidthMM,
+        printerNbrCharactersPerLine
+      );
+    });
   });
 });
