@@ -29,8 +29,17 @@ yarn add react-native-thermal-printer
 
 make sure you have the following permission in android/app/src/main/AndroidManifest.xml
 
+network printing
+
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
+```
+
+bluetooth printing
+
+```xml
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 ```
 
 ## Usage
@@ -46,6 +55,7 @@ import ThermalPrinterModule from 'react-native-thermal-printer';
 ```js
 ThermalPrinterModule.defaultConfig.ip = '192.168.100.246';
 ThermalPrinterModule.defaultConfig.port = 9100;
+ThermalPrinterModule.defaultConfig.autoCut = false;
 ```
 
 or
@@ -80,11 +90,30 @@ try {
     ip: '192.168.100.246',
     port: 9100,
     payload: 'hello world',
+    printerWidthMM: 50,
   });
   await ThermalPrinterModule.printTcp({
     ip: '192.168.100.247',
     port: 9100,
     payload: 'hello world',
+    autoCut: false,
+  });
+} catch (err) {
+  //error handling
+  console.log(err.message);
+}
+```
+
+#### Bluetooth
+
+pair your bluetooth device and call the printBluetooth method, all configurations remain the same
+
+```ts
+// inside async function
+try {
+  await ThermalPrinterModule.printBluetooth({
+    payload: 'hello world',
+    printerNbrCharactersPerLine: 38,
   });
 } catch (err) {
   //error handling
@@ -94,11 +123,12 @@ try {
 
 ## Method
 
-Only support network printing for now
+Support both network and bluetooth printing for now
 
-| Name     | Param    | Param Type                                                       | default         |
-| -------- | -------- | ---------------------------------------------------------------- | --------------- |
-| printTcp | `config` | `Partial<PrintTcpInterface> & Pick<PrinterInterface, 'payload'>` | `defaultConfig` |
+| Name           | Param    | Param Type                                                             | default         |
+| -------------- | -------- | ---------------------------------------------------------------------- | --------------- |
+| printTcp       | `config` | `Partial<PrintTcpInterface> & Pick<PrinterInterface, 'payload'>`       | `defaultConfig` |
+| printBluetooth | `config` | `Partial<PrintBluetoothInterface> & Pick<PrinterInterface, 'payload'>` | `defaultConfig` |
 
 ## Interfaces
 
@@ -117,13 +147,15 @@ interface PrintTcpInterface extends PrinterInterface {
   ip: string;
   port: number;
 }
+
+interface PrintBluetoothInterface extends PrinterInterface {}
 ```
 
 ## Config
 
 ### Default config
 
-```js
+```ts
 let defaultConfig: PrintTcpInterface = {
   ip: '192.168.192.168',
   port: 9100,
@@ -252,6 +284,12 @@ const App = () => {
     try {
       console.log('We will invoke the native module here!');
       await ThermalPrinterModule.printTcp({ payload: state.text });
+
+      //
+      // bluetooth
+      // await ThermalPrinterModule.printBluetooth({ payload: state.text });
+      //
+
       console.log('done printing');
     } catch (err) {
       //error handling
