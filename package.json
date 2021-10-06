@@ -1,6 +1,6 @@
 {
   "name": "react-native-thermal-printer",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "native bridge for thermal printer",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
