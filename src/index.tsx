@@ -1,9 +1,9 @@
 import { NativeModules } from 'react-native';
 
-type BluetoothPrinter={
-  deviceName:string;
-  macAddress:string;
-}
+type BluetoothPrinter = {
+  deviceName: string;
+  macAddress: string;
+};
 
 type NativeModuleType = typeof NativeModules & {
   ThermalPrinterModule: {
@@ -19,7 +19,7 @@ type NativeModuleType = typeof NativeModules & {
       printerNbrCharactersPerLine: number
     ): Promise<void>;
     printBluetooth(
-      index:number,
+      index: number,
       payload: string,
       autoCut: boolean,
       openCashbox: boolean,
@@ -54,7 +54,6 @@ interface PrintTcpInterface extends PrinterInterface {
 interface PrintBluetoothInterface extends PrinterInterface {
   macAddress: string;
 }
-
 
 let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
   macAddress: '',
@@ -103,9 +102,6 @@ const printTcp = async (
   );
 };
 
-
-
-
 const printBluetooth = async (
   args: Partial<PrintBluetoothInterface> & Pick<PrinterInterface, 'payload'>
 ): Promise<void> => {
@@ -122,18 +118,19 @@ const printBluetooth = async (
 
   const devicesLsit = await getBluetoothDeviceList();
 
-  if(!macAddress){
-    return Promise.reject("ERROR: Mac Address Empty")
+  if (!macAddress) {
+    return Promise.reject('ERROR: Mac Address Empty');
   }
 
-  
-  const index:number = devicesLsit.findIndex(obj => obj.macAddress === macAddress);
+  const index: number = devicesLsit.findIndex(
+    (obj) => obj.macAddress === macAddress
+  );
 
-  if(index <0){
-    return Promise.reject("ERROR: Device Not Found")
+  if (index < 0) {
+    return Promise.reject('ERROR: Device Not Found');
   }
 
-  console.log("Found BT indexat",index);
+  console.log('Found BT indexat', index);
 
   return ThermalPrinterModule.printBluetooth(
     index,
@@ -148,7 +145,7 @@ const printBluetooth = async (
 };
 
 const getBluetoothDeviceList = (): Promise<BluetoothPrinter[]> => {
-   return ThermalPrinterModule.getBluetoothDeviceList();
+  return ThermalPrinterModule.getBluetoothDeviceList();
 };
 
 export default {

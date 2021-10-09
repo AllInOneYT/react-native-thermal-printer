@@ -23,6 +23,7 @@ jest.mock('react-native', () => {
 describe('React Native Thermal Printer Module', () => {
   it('should provide a way to set the default config individually', async () => {
     const args: typeof ReactNativeThermalPrinter.defaultConfig = {
+      macAddress: '',
       ip: '2.2.2.2',
       port: 8000,
       payload: 'ccc',
