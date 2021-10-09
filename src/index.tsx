@@ -1,5 +1,10 @@
 import { NativeModules } from 'react-native';
 
+type BluetoothPrinter={
+  deviceName:string;
+  macAddress:string;
+}
+
 type NativeModuleType = typeof NativeModules & {
   ThermalPrinterModule: {
     printTcp(
@@ -14,6 +19,7 @@ type NativeModuleType = typeof NativeModules & {
       printerNbrCharactersPerLine: number
     ): Promise<void>;
     printBluetooth(
+      index:number,
       payload: string,
       autoCut: boolean,
       openCashbox: boolean,
@@ -22,6 +28,7 @@ type NativeModuleType = typeof NativeModules & {
       printerWidthMM: number,
       printerNbrCharactersPerLine: number
     ): Promise<void>;
+    getBluetoothDeviceList(): Promise<BluetoothPrinter[]>;
   };
 };
 
@@ -44,9 +51,13 @@ interface PrintTcpInterface extends PrinterInterface {
   port: number;
 }
 
-interface PrintBluetoothInterface extends PrinterInterface {}
+interface PrintBluetoothInterface extends PrinterInterface {
+  macAddress: string;
+}
+
 
 let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
+  macAddress: '',
   ip: '192.168.192.168',
   port: 9100,
   payload: '',
@@ -92,10 +103,14 @@ const printTcp = async (
   );
 };
 
+
+
+
 const printBluetooth = async (
   args: Partial<PrintBluetoothInterface> & Pick<PrinterInterface, 'payload'>
 ): Promise<void> => {
   const {
+    macAddress,
     payload,
     autoCut,
     openCashbox,
@@ -105,7 +120,23 @@ const printBluetooth = async (
     printerNbrCharactersPerLine,
   } = getConfig(args);
 
-  await ThermalPrinterModule.printBluetooth(
+  const devicesLsit = await getBluetoothDeviceList();
+
+  if(!macAddress){
+    return Promise.reject("ERROR: Mac Address Empty")
+  }
+
+  
+  const index:number = devicesLsit.findIndex(obj => obj.macAddress === macAddress);
+
+  if(index <0){
+    return Promise.reject("ERROR: Device Not Found")
+  }
+
+  console.log("Found BT indexat",index);
+
+  return ThermalPrinterModule.printBluetooth(
+    index,
     payload,
     autoCut,
     openCashbox,
@@ -116,4 +147,13 @@ const printBluetooth = async (
   );
 };
 
-export default { printTcp, printBluetooth, defaultConfig };
+const getBluetoothDeviceList = (): Promise<BluetoothPrinter[]> => {
+   return ThermalPrinterModule.getBluetoothDeviceList();
+};
+
+export default {
+  printTcp,
+  getBluetoothDeviceList,
+  printBluetooth,
+  defaultConfig,
+};
