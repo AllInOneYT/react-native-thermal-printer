@@ -320,6 +320,7 @@ export default App;
 - Epson TM-T82
 - Epson TM-T82X
 - Epson TM-T88VI
+- Epson TM-T20III
 - Zywell
 - VSC
 - EPPOS
