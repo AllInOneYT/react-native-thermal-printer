@@ -44,7 +44,7 @@ public class ThermalPrinterModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void printTcp(String ipAddress, double port, String payload, boolean autoCut, boolean openCashbox, double mmFeedPaper, double printerDpi, double printerWidthMM, double printerNbrCharactersPerLine, Promise promise) {
+  public void printTcp(String ipAddress, double port, String payload, boolean autoCut, boolean openCashbox, double mmFeedPaper, double printerDpi, double printerWidthMM, double printerNbrCharactersPerLine, double timeout, Promise promise) {
 //
 //        05-05-2021
 //        https://reactnative.dev/docs/native-modules-android
@@ -57,7 +57,7 @@ public class ThermalPrinterModule extends ReactContextBaseJavaModule {
 //
     this.jsPromise = promise;
     try {
-      TcpConnection connection = new TcpConnection(ipAddress, (int) port);
+      TcpConnection connection = new TcpConnection(ipAddress, (int) port, (int) timeout);
       this.printIt(connection, payload, autoCut, openCashbox, mmFeedPaper, printerDpi, printerWidthMM, printerNbrCharactersPerLine);
     } catch (Exception e) {
       this.jsPromise.reject("Connection Error", e.getMessage());

@@ -68,6 +68,11 @@ We follow the [conventional commits specification](https://www.conventionalcommi
 
 Our pre-commit hooks verify that your commit message matches this format when committing.
 
+### CHANGELOG
+
+For all changes in the project you must add a message in the `CHANGELOG.md` in the section `[unreleased]`
+under one of the [Commit message convention](https://github.com/AllInOneYT/react-native-thermal-printer/blob/main/CONTRIBUTING.md#commit-message-convention).
+
 ### Linting and tests
 
 [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [TypeScript](https://www.typescriptlang.org/)

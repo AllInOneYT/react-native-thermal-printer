@@ -11,7 +11,8 @@ type NativeModuleType = typeof NativeModules & {
       mmFeedPaper: number,
       printerDpi: number,
       printerWidthMM: number,
-      printerNbrCharactersPerLine: number
+      printerNbrCharactersPerLine: number,
+      timeout: number
     ): Promise<void>;
     printBluetooth(
       payload: string,
@@ -42,6 +43,7 @@ interface PrinterInterface {
 interface PrintTcpInterface extends PrinterInterface {
   ip: string;
   port: number;
+  timeout: number;
 }
 
 interface PrintBluetoothInterface extends PrinterInterface {}
@@ -56,6 +58,7 @@ let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
   printerDpi: 203,
   printerWidthMM: 80,
   printerNbrCharactersPerLine: 42,
+  timeout: 30,
 };
 
 const getConfig = (
@@ -77,6 +80,7 @@ const printTcp = async (
     printerDpi,
     printerWidthMM,
     printerNbrCharactersPerLine,
+    timeout,
   } = getConfig(args);
 
   await ThermalPrinterModule.printTcp(
@@ -88,7 +92,8 @@ const printTcp = async (
     mmFeedPaper,
     printerDpi,
     printerWidthMM,
-    printerNbrCharactersPerLine
+    printerNbrCharactersPerLine,
+    timeout
   );
 };
 

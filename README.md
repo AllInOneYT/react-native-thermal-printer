@@ -11,7 +11,7 @@ native bridge for thermal printer
 ### Android Only
 
 bridged library:
-https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/2.0.11
+https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/3.0.1
 
 ## Installation
 
@@ -56,6 +56,7 @@ import ThermalPrinterModule from 'react-native-thermal-printer';
 ThermalPrinterModule.defaultConfig.ip = '192.168.100.246';
 ThermalPrinterModule.defaultConfig.port = 9100;
 ThermalPrinterModule.defaultConfig.autoCut = false;
+ThermalPrinterModule.defaultConfig.timeout = 30; // in seconds (version >= 2.2.0)
 ```
 
 or
@@ -66,6 +67,7 @@ ThermalPrinterModule.defaultConfig = {
   ip: '192.168.100.246',
   port: 9100,
   autoCut: false,
+  timeout: 30, // in seconds (version >= 2.2.0)
 };
 ```
 
@@ -91,12 +93,14 @@ try {
     port: 9100,
     payload: 'hello world',
     printerWidthMM: 50,
+    timeout: 30, // in seconds (version >= 2.2.0)
   });
   await ThermalPrinterModule.printTcp({
     ip: '192.168.100.247',
     port: 9100,
     payload: 'hello world',
     autoCut: false,
+    timeout: 30, // in seconds (version >= 2.2.0)
   });
 } catch (err) {
   //error handling
@@ -146,6 +150,7 @@ interface PrinterInterface {
 interface PrintTcpInterface extends PrinterInterface {
   ip: string;
   port: number;
+  timeout: number;
 }
 
 interface PrintBluetoothInterface extends PrinterInterface {}
@@ -166,6 +171,7 @@ let defaultConfig: PrintTcpInterface = {
   printerDpi: 203,
   printerWidthMM: 80,
   printerNbrCharactersPerLine: 42,
+  timeout: 30,
 };
 ```
 
@@ -182,10 +188,11 @@ let defaultConfig: PrintTcpInterface = {
 | printerDpi                  | `number`  | `203`             | DPI of the connected printer                                                 |
 | printerWidthMM              | `number`  | `80`              | printing width in millimeters                                                |
 | printerNbrCharactersPerLine | `number`  | `42`              | The maximum number of medium sized characters that can be printed on a line. |
+| timeout                     | `number`  | `30`              | the maximum time to wait before the print is canceled.                       |
 
 ## Payload
 
-same as https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/2.0.11#formatted-text--syntax-guide
+same as https://github.com/DantSu/ESCPOS-ThermalPrinter-Android/tree/3.0.1#formatted-text--syntax-guide
 except for the `<img></img>` tag
 
 place the image url directly between the img tags
@@ -241,6 +248,7 @@ ThermalPrinterModule.defaultConfig = {
   ...ThermalPrinterModule.defaultConfig,
   ip: '192.168.100.246',
   port: 9100,
+  timeout: 30,
 };
 
 const App = () => {
