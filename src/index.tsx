@@ -56,7 +56,7 @@ interface PrintBluetoothInterface extends PrinterInterface {
 }
 
 let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
-  macAddress:'',
+  macAddress: '',
   ip: '192.168.192.168',
   port: 9100,
   payload: '',
@@ -102,7 +102,7 @@ const printTcp = async (
   );
 };
 
-const printBluetooth =  (
+const printBluetooth = (
   args: Partial<PrintBluetoothInterface> & Pick<PrinterInterface, 'payload'>
 ): Promise<void> => {
   const {
@@ -132,5 +132,9 @@ const getBluetoothDeviceList = (): Promise<BluetoothPrinter[]> => {
   return ThermalPrinterModule.getBluetoothDeviceList();
 };
 
-
-export default { printTcp, printBluetooth, defaultConfig, getBluetoothDeviceList };
+export default {
+  printTcp,
+  printBluetooth,
+  defaultConfig,
+  getBluetoothDeviceList,
+};
