@@ -14,6 +14,6 @@
 
 # [2.2.0]
 
-### refactor
+### feat
 
 - add timeout support for print TCP
