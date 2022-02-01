@@ -7,7 +7,7 @@ We want this community to be friendly and respectful to each other. Please follo
 To get started with the project, run `yarn` in the root directory to install the required dependencies for each package:
 
 ```sh
-yarn
+yarn && yarn example
 ```
 
 > While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
@@ -23,7 +23,15 @@ yarn example start
 To run the example app on Android:
 
 ```sh
+chmod 755 example/android/gradlew # in case of error: "Error: spawn ./gradlew EACCES"
 yarn example android
+```
+
+If you got the error: "error: ReferenceError: SHA-1 for file". Simply run:
+```bash
+# https://github.com/facebook/metro/issues/330
+yarn global remove react-native
+yarn global add react-native-cli
 ```
 
 To run the example app on iOS:
