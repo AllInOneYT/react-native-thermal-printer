@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import ThermalPrinter from 'react-native-thermal-printer';
+import { StyleSheet, Text, View } from 'react-native';
+// import ThermalPrinter from 'react-native-thermal-printer';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  // const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
     // ThermalPrinter.printTcp('')
