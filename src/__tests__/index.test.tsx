@@ -23,6 +23,7 @@ jest.mock('react-native', () => {
 describe('React Native Thermal Printer Module', () => {
   it('should provide a way to set the default config individually', async () => {
     const args: typeof ReactNativeThermalPrinter.defaultConfig = {
+      macAddress: '',
       ip: '2.2.2.2',
       port: 8000,
       payload: 'ccc',
@@ -116,7 +117,7 @@ describe('React Native Thermal Printer Module', () => {
 
   describe('printBluetooth', () => {
     it('should call the native method', async () => {
-      const args = { payload: 'test' };
+      const args = { payload: 'test', macAddress: '' };
 
       await ReactNativeThermalPrinter.printBluetooth(args);
 
@@ -126,11 +127,12 @@ describe('React Native Thermal Printer Module', () => {
     });
     it('should use the default config when no args are passed', async () => {
       const defaultConfig = ReactNativeThermalPrinter.defaultConfig;
-      const args = { payload: 'test' };
+      const args = { payload: 'test', macAddress: '' };
 
       await ReactNativeThermalPrinter.printBluetooth(args);
 
       expect(NativeModules.ThermalPrinterModule.printBluetooth).toBeCalledWith(
+        args.macAddress,
         args.payload,
         defaultConfig.autoCut,
         defaultConfig.openCashbox,
@@ -141,6 +143,7 @@ describe('React Native Thermal Printer Module', () => {
       );
     });
     it('should pass args to the native module', async () => {
+      const macAddress: string = '';
       const payload: string = 'abc';
       const autoCut: boolean = false;
       const openCashbox: boolean = true;
@@ -150,6 +153,7 @@ describe('React Native Thermal Printer Module', () => {
       const printerNbrCharactersPerLine: number = 62;
 
       await ReactNativeThermalPrinter.printBluetooth({
+        macAddress,
         payload,
         autoCut,
         openCashbox,
@@ -160,6 +164,7 @@ describe('React Native Thermal Printer Module', () => {
       });
 
       expect(NativeModules.ThermalPrinterModule.printBluetooth).toBeCalledWith(
+        macAddress,
         payload,
         autoCut,
         openCashbox,
