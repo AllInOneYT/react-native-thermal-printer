@@ -1,5 +1,10 @@
 import { NativeModules } from 'react-native';
 
+type BluetoothPrinter = {
+  deviceName: string;
+  macAddress: string;
+};
+
 type NativeModuleType = typeof NativeModules & {
   ThermalPrinterModule: {
     printTcp(
@@ -15,6 +20,7 @@ type NativeModuleType = typeof NativeModules & {
       timeout: number
     ): Promise<void>;
     printBluetooth(
+      macAddress: string,
       payload: string,
       autoCut: boolean,
       openCashbox: boolean,
@@ -23,6 +29,7 @@ type NativeModuleType = typeof NativeModules & {
       printerWidthMM: number,
       printerNbrCharactersPerLine: number
     ): Promise<void>;
+    getBluetoothDeviceList(): Promise<BluetoothPrinter[]>;
   };
 };
 
@@ -46,9 +53,12 @@ interface PrintTcpInterface extends PrinterInterface {
   timeout: number;
 }
 
-interface PrintBluetoothInterface extends PrinterInterface {}
+interface PrintBluetoothInterface extends PrinterInterface {
+  macAddress: string;
+}
 
 let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
+  macAddress: '',
   ip: '192.168.192.168',
   port: 9100,
   payload: '',
@@ -97,10 +107,11 @@ const printTcp = async (
   );
 };
 
-const printBluetooth = async (
+const printBluetooth = (
   args: Partial<PrintBluetoothInterface> & Pick<PrinterInterface, 'payload'>
 ): Promise<void> => {
   const {
+    macAddress,
     payload,
     autoCut,
     openCashbox,
@@ -110,7 +121,8 @@ const printBluetooth = async (
     printerNbrCharactersPerLine,
   } = getConfig(args);
 
-  await ThermalPrinterModule.printBluetooth(
+  return ThermalPrinterModule.printBluetooth(
+    macAddress,
     payload,
     autoCut,
     openCashbox,
@@ -121,4 +133,13 @@ const printBluetooth = async (
   );
 };
 
-export default { printTcp, printBluetooth, defaultConfig };
+const getBluetoothDeviceList = (): Promise<BluetoothPrinter[]> => {
+  return ThermalPrinterModule.getBluetoothDeviceList();
+};
+
+export default {
+  printTcp,
+  printBluetooth,
+  defaultConfig,
+  getBluetoothDeviceList,
+};
