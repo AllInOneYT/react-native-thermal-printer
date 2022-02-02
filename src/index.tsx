@@ -68,7 +68,7 @@ let defaultConfig: PrintTcpInterface & PrintBluetoothInterface = {
   printerDpi: 203,
   printerWidthMM: 80,
   printerNbrCharactersPerLine: 42,
-  timeout: 30,
+  timeout: 2000,
 };
 
 const getConfig = (

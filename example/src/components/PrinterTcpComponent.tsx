@@ -10,6 +10,7 @@ const PrinterTcpComponent: React.FC = React.memo(() => {
 
   const testPrint = React.useCallback(async () => {
     try {
+      setResult('');
       await ThermalPrinter.printTcp({
         ip: ip,
         port: parseInt(port, 10),
@@ -19,6 +20,7 @@ const PrinterTcpComponent: React.FC = React.memo(() => {
           '</font></u>\n' +
           '[L] \n' +
           '[L] \n',
+        timeout: 2000,
       });
       setResult('Success !');
     } catch (e) {
