@@ -56,7 +56,7 @@ import ThermalPrinterModule from 'react-native-thermal-printer';
 ThermalPrinterModule.defaultConfig.ip = '192.168.100.246';
 ThermalPrinterModule.defaultConfig.port = 9100;
 ThermalPrinterModule.defaultConfig.autoCut = false;
-ThermalPrinterModule.defaultConfig.timeout = 2000; // in milliseconds (version >= 2.2.0)
+ThermalPrinterModule.defaultConfig.timeout = 30000; // in milliseconds (version >= 2.2.0)
 ```
 
 or
@@ -67,7 +67,7 @@ ThermalPrinterModule.defaultConfig = {
   ip: '192.168.100.246',
   port: 9100,
   autoCut: false,
-  timeout: 2000, // in milliseconds (version >= 2.2.0)
+  timeout: 30000, // in milliseconds (version >= 2.2.0)
 };
 ```
 
@@ -93,14 +93,14 @@ try {
     port: 9100,
     payload: 'hello world',
     printerWidthMM: 50,
-    timeout: 2000, // in milliseconds (version >= 2.2.0)
+    timeout: 30000, // in milliseconds (version >= 2.2.0)
   });
   await ThermalPrinterModule.printTcp({
     ip: '192.168.100.247',
     port: 9100,
     payload: 'hello world',
     autoCut: false,
-    timeout: 2000, // in milliseconds (version >= 2.2.0)
+    timeout: 30000, // in milliseconds (version >= 2.2.0)
   });
 } catch (err) {
   //error handling
@@ -171,7 +171,7 @@ let defaultConfig: PrintTcpInterface = {
   printerDpi: 203,
   printerWidthMM: 80,
   printerNbrCharactersPerLine: 42,
-  timeout: 2000,
+  timeout: 30000,
 };
 ```
 
@@ -188,7 +188,7 @@ let defaultConfig: PrintTcpInterface = {
 | printerDpi                  | `number`  | `203`             | DPI of the connected printer                                                 |
 | printerWidthMM              | `number`  | `80`              | printing width in millimeters                                                |
 | printerNbrCharactersPerLine | `number`  | `42`              | The maximum number of medium sized characters that can be printed on a line. |
-| timeout                     | `number`  | `2000`            | the maximum time to wait before the print is canceled.                       |
+| timeout                     | `number`  | `30000`           | the maximum time to wait before the print is canceled.                       |
 
 ## Payload
 
@@ -248,7 +248,7 @@ ThermalPrinterModule.defaultConfig = {
   ...ThermalPrinterModule.defaultConfig,
   ip: '192.168.100.246',
   port: 9100,
-  timeout: 2000,
+  timeout: 30000,
 };
 
 const App = () => {
