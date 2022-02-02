@@ -178,7 +178,7 @@ let defaultConfig: PrintTcpInterface = {
 ### Available config
 
 | Name                        | Type      | Default           | Description                                                                  |
-| --------------------------- | --------- | ----------------- | ---------------------------------------------------------------------------- |
+| --------------------------- | --------- |-------------------| ---------------------------------------------------------------------------- |
 | ip                          | `string`  | `192.168.192.168` | printer ip address                                                           |
 | port                        | `number`  | `9100`            | printer port                                                                 |
 | payload                     | `string`  | ``                | text that you send to the printer                                            |
@@ -188,7 +188,7 @@ let defaultConfig: PrintTcpInterface = {
 | printerDpi                  | `number`  | `203`             | DPI of the connected printer                                                 |
 | printerWidthMM              | `number`  | `80`              | printing width in millimeters                                                |
 | printerNbrCharactersPerLine | `number`  | `42`              | The maximum number of medium sized characters that can be printed on a line. |
-| timeout                     | `number`  | `30`              | the maximum time to wait before the print is canceled.                       |
+| timeout                     | `number`  | `2000`            | the maximum time to wait before the print is canceled.                       |
 
 ## Payload
 
