@@ -90,7 +90,7 @@ describe('React Native Thermal Printer Module', () => {
       const printerDpi: number = 303;
       const printerWidthMM: number = 20;
       const printerNbrCharactersPerLine: number = 62;
-      const timeout: number = 2000;
+      const timeout: number = 30000;
 
       await ReactNativeThermalPrinter.printTcp({
         ip,
