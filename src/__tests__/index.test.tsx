@@ -33,6 +33,7 @@ describe('React Native Thermal Printer Module', () => {
       printerDpi: 44,
       printerWidthMM: 55,
       printerNbrCharactersPerLine: 66,
+      timeout: 30000,
     };
 
     Object.keys(ReactNativeThermalPrinter.defaultConfig).forEach(
@@ -74,7 +75,8 @@ describe('React Native Thermal Printer Module', () => {
         defaultConfig.mmFeedPaper,
         defaultConfig.printerDpi,
         defaultConfig.printerWidthMM,
-        defaultConfig.printerNbrCharactersPerLine
+        defaultConfig.printerNbrCharactersPerLine,
+        defaultConfig.timeout
       );
     });
 
@@ -88,6 +90,7 @@ describe('React Native Thermal Printer Module', () => {
       const printerDpi: number = 303;
       const printerWidthMM: number = 20;
       const printerNbrCharactersPerLine: number = 62;
+      const timeout: number = 30000;
 
       await ReactNativeThermalPrinter.printTcp({
         ip,
@@ -99,6 +102,7 @@ describe('React Native Thermal Printer Module', () => {
         printerDpi,
         printerWidthMM,
         printerNbrCharactersPerLine,
+        timeout,
       });
 
       expect(NativeModules.ThermalPrinterModule.printTcp).toBeCalledWith(
@@ -110,7 +114,8 @@ describe('React Native Thermal Printer Module', () => {
         mmFeedPaper,
         printerDpi,
         printerWidthMM,
-        printerNbrCharactersPerLine
+        printerNbrCharactersPerLine,
+        timeout
       );
     });
   });
