@@ -6,7 +6,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
+            classpath("com.android.tools.build:gradle:7.3.1")
         }
     }
 }
@@ -18,11 +18,11 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('ThermalPrinter_compileSdkVersion', 29)
-    buildToolsVersion safeExtGet('ThermalPrinter_buildToolsVersion', '29.0.2')
+    compileSdkVersion safeExtGet('ThermalPrinter_compileSdkVersion', 33)
+    buildToolsVersion safeExtGet('ThermalPrinter_buildToolsVersion', '33.0.0')
     defaultConfig {
         minSdkVersion safeExtGet('ThermalPrinter_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('ThermalPrinter_targetSdkVersion', 29)
+        targetSdkVersion safeExtGet('ThermalPrinter_targetSdkVersion', 33)
         versionCode 1
         versionName "1.0"
 
@@ -56,7 +56,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.0.1'
+    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.1'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
