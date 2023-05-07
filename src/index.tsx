@@ -33,9 +33,8 @@ type NativeModuleType = typeof NativeModules & {
   };
 };
 
-const {
-  ThermalPrinterModule,
-}: NativeModuleType = NativeModules as NativeModuleType;
+const { ThermalPrinterModule }: NativeModuleType =
+  NativeModules as NativeModuleType;
 
 interface PrinterInterface {
   payload: string;
