@@ -77,8 +77,8 @@ describe('React Native Thermal Printer Module', () => {
         defaultConfig.printerWidthMM,
         defaultConfig.printerNbrCharactersPerLine,
         defaultConfig.timeout,
-        undefined,
-        undefined,
+        defaultConfig.encoding,
+        defaultConfig.charsetId,
       );
     });
 
