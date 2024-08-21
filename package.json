@@ -36,7 +36,10 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/AllInOneYT/react-native-thermal-printer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AllInOneYT/react-native-thermal-printer.git"
+  },
   "author": "Edy Gunawan <gunawanedy40@gmail.com> (https://github.com/AllInOneYT)",
   "license": "MIT",
   "bugs": {
@@ -149,5 +152,8 @@
         }
       ]
     ]
+  },
+  "directories": {
+    "example": "example"
   }
 }
